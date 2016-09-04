@@ -1,0 +1,9 @@
+Analyse basique
+1. calculer les moyennes : mean, aggregate (by = list(X))
+2. calculer les erreurs standards : fonction erreurstandard, aggregate (by = list(X))
+3. plot
+
+Tests
+1. Normalité : shapiro.test, aggregate
+2. Egalité des variances : bartlett.test (format liste)
+3. Egalité des moyennes : t.test, 
