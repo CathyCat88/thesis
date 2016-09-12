@@ -16,6 +16,8 @@ g1 <- ggplot(data = data.B,
                  colour = genotype,
                  linetype = treatment)) +
   geom_line(size = 1) +
+  geom_point(size = 2.5) +
+  scale_color_hue(l = 40, c = 100) +
   labs(colour = "Génotype", linetype = "CDT") +
   scale_x_continuous(name = "\nTemps (heures)", 
                      expand = c(0,0),
@@ -43,6 +45,8 @@ g2 <- ggplot(data = data.C,
                  colour = genotype,
                  linetype = treatment)) +
   geom_line(size = 1) +
+  geom_point(size = 2.5) +
+  scale_color_hue(l = 40, c = 100) +
   labs(colour = "Génotype", linetype = "CDT") +
   scale_x_continuous(name = "\nTemps (heures)", 
                      expand = c(0,0),

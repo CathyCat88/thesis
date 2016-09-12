@@ -61,8 +61,8 @@ shapiroTest <- tapply(data2$result, interaction(data2$temperature, data2$treatme
 bartlett.test(list(data2$result[data2$temperature == "CTR" & data2$treatment == "aged"],
                    data2$result[data2$temperature == "LT" & data2$treatment == "aged"]))
 
-t.test(data2$result[data2$temperature == "CTR" & data2$treatment == "aged"],
-       data2$result[data2$temperature == "LT" & data2$treatment == "aged"], var.equal = TRUE)
+t.test(data2$result[data2$temperature == "HT" & data2$treatment == "no"],
+       data2$result[data2$temperature == "CTR" & data2$treatment == "no"], var.equal = TRUE)
 
 t.test(data2$result[data2$temperature == "HT" & data2$treatment == "aged"],
        data2$result[data2$temperature == "HT" & data2$treatment == "no"], var.equal = TRUE)
