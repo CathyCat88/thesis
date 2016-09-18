@@ -33,7 +33,7 @@ g <- ggplot(result,
            colour = "black", 
            width = 0.6) +
   xlab("") +
-  scale_y_continuous(name = "Péroxyde d'hydrogène \n(nmol/h/g)\n", 
+  scale_y_continuous(name = "Péroxyde d'hydrogène \n(nmol/g/h)\n", 
                      expand = c(0,0),
                      limits = c(0,15.5)) +
   theme(legend.position = "none") +

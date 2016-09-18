@@ -1,8 +1,8 @@
 remove(list= ls())
 graphics.off()
 
-#data <- read.csv("Col_sansStrat_lum_CDT.csv", header = TRUE)
-data <- read.csv("Col_strat_lum_CDT.csv", header = TRUE)
+data <- read.csv("Col_sansStrat_lum_CDT.csv", header = TRUE)
+#data <- read.csv("Col_strat_lum_CDT.csv", header = TRUE)
 
 mn3 <- aggregate(data$X3days, list(data$genotype, data$cdt), mean)
 mn7 <- aggregate(data$X7days, list(data$genotype, data$cdt), mean)
@@ -56,7 +56,7 @@ g7 <- ggplot(data = result,
   geom_point(data = result, 
              aes(colour = genotype, 
                  group = genotype,
-                 sjape = genotype), size = 3) +
+                 shape = genotype), size = 3) +
   xlab("\n Durée du traitement (jours)") +
   ylab("Germination (%) \n") +
   theme(legend.title = element_blank()) +
@@ -67,5 +67,5 @@ g7 <- ggplot(data = result,
                     group = genotype), 
                 width = 0.2)
 
-#save_plot("Col_sansStrat_lum_CDT_7j.png", g7, base_aspect_ratio = 1.3)
-save_plot("Col_strat_lum_CDT_7j.png", g7, base_aspect_ratio = 1.3)
+save_plot("Col_sansStrat_lum_CDT_7j.png", g7, base_aspect_ratio = 1.3)
+#save_plot("Col_strat_lum_CDT_7j.png", g7, base_aspect_ratio = 1.3)
