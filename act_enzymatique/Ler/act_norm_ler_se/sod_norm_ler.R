@@ -3,33 +3,30 @@ remove(list = ls())
 library("cowplot")
 
 # importation des données
-cat <- read.csv("CATt.csv", sep = ",", dec = ".", header = TRUE)
+sod <- read.csv("SOD.csv", sep = ",", dec = ".", header = TRUE)
 
-# calcul de la concentration en oxygène en nmol/mg/s
-Concentration <- function(rep, pente, protein) {
-  coeff <- c(0.01315, 0.0146, 0.014)
-  return((pente * coeff[rep] *10^3) / (protein * 60))
+# calcul de la concentration en nmol/mg/s
+Concentration <- function(pente2, pente1, protein) {
+  return(abs((pente2 - pente1) * 10^9 / (24200 * protein * 60)))
 }
 
-cat$result <- Concentration(cat$repBIO, cat$pente, cat$protein)
-
-aggregate(cat$result, list(cat$genotype, cat$ecotype, cat$repBIO), mean)
+sod$result <- Concentration(sod$pente2, sod$pente1, sod$protein)
 
 # Normalisation selon WT
 Normalisation <- function(genotype, repBio, repTech) {
-  return((cat$result[cat$genotype == genotype
-                     & cat$ecotype == "Ler"
-                     & cat$repBIO == repBio
-                     & cat$repTech == repTech]) / (cat$result[cat$genotype == "WT"
-                                                              & cat$ecotype == "Ler"
-                                                              & cat$repBIO == repBio
-                                                              & cat$repTech == repTech]))
+  return((sod$result[sod$genotype == genotype
+                     & sod$ecotype == "Ler"
+                     & sod$repBIO == repBio
+                     & sod$repTech == repTech]) / (sod$result[sod$genotype == "WT"
+                                                              & sod$ecotype == "Ler"
+                                                              & sod$repBIO == repBio
+                                                              & sod$repTech == repTech]))
 }
 rep <- data.frame(norm = integer(0))
 
 for (j in 1:3) {
   for (i in 1:2) {
-    x <- Normalisation(cat$genotype, j, i)
+    x <- Normalisation(sod$genotype, j, i)
     rep <- rbind(rep, data.frame(norm = x))
   }
 }
@@ -60,15 +57,14 @@ g <- ggplot(data = df, aes(x=genotype,
 g <- g + geom_bar(stat = "identity", 
                   color = "black", 
                   width = 0.6, 
-                  position = position_dodge(0.8)) 
+                  position = position_dodge(0.8))
 g <- g + xlab("") 
-g <- g + scale_y_continuous(name = "catalase activity \n", 
-                            expand = c(0,0))
+g <- g + scale_y_continuous(name = "SOD activity \n", expand = c(0,0))
 g <- g + geom_errorbar(aes(ymin = df$moyenne, 
                            ymax = df$moyenne+SE), 
                        width = 0.05)
 g
-save_plot('CATnorm_Ler.png', 
+save_plot('sodnorm_Ler.png', 
           g, 
           base_aspect_ratio = 1.3)
 
@@ -78,17 +74,18 @@ g <- ggplot(data = df, aes(x=genotype,
                            fill = genotype)) 
 g <- g + geom_bar(stat = "identity", 
                   color = "black", 
-                  width = 0.6) 
+                  width = 0.6, 
+                  position = position_dodge(0.8))
 g <- g + theme(legend.position = "none") 
-g <- g + scale_fill_hue(l = 40, c = 100) 
+g <- g + scale_fill_hue(l = 40, c = 100)
 g <- g + xlab("") 
-g <- g + scale_y_continuous(name = "Activité catalase\n", 
+g <- g + scale_y_continuous(name = "Activité SOD \n", 
                             expand = c(0,0))
 g <- g + geom_errorbar(aes(ymin = df$moyenne, 
                            ymax = df$moyenne+SE), 
                        width = 0.05)
 g
-save_plot('CATnorm_Ler_fr.png', 
+save_plot('sodnorm_Ler_fr.png', 
           g, 
           base_aspect_ratio = 1.3)
 
@@ -98,7 +95,7 @@ save_plot('CATnorm_Ler_fr.png',
 #########
 
 #shapiroTest <- aggregate(norm ~ genotype, data = rep, 
-                         #function (x) shapiro.test(x)$p.value)
+#function (x) shapiro.test(x)$p.value)
 
 #shapiroTest$normality <- shapiroTest$result > 0.05
 #shapiroTest
@@ -113,9 +110,10 @@ df <- data.frame(reference=character(0),
                  student=numeric(0),
                  student.pass=logical(0))
 
-for (params in list(c("WT", "nqr"),
-                    c("WT", "air12"),
-                    c("WT", "nqrair12"))) {
+for (params in list(c("WTLer", "nqrLer"),
+                    c("WTLer", "air12Ler"),
+                    c("WTLer", "nqrair12Ler"),
+                    c("WTCol", "nqrCol"))) {
   
   reference <- params[1]
   genotype <- params[2]
@@ -137,9 +135,3 @@ for (params in list(c("WT", "nqr"),
                              student=studentResult$p.value,
                              student.pass=(studentResult$p.value > 0.05)))
 }
-
-stats <- lm(rep$norm ~ rep$genotype + rep$repBio)
-summary(stats)
-anova(stats)
-
-out <- HSD.test(stats, 'rep$genotype')

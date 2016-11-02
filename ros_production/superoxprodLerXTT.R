@@ -105,3 +105,12 @@ for (params in list(c("WT", "nqr"),
                                student=student$p.value,
                                student.pass=(student$p.value > 0.05)))
 }
+
+stats <- lm(df2$superoxprod ~ df2$genotype + df2$repbio)
+summary(stats)
+anova(stats)
+
+a1 <- aov(df2$superoxprod ~ df2$genotype + df2$repbio)
+posthoc <- TukeyHSD(x=a1, 'df2$genotype', conf.level=0.95)
+
+out <- HSD.test(stats, 'df2$genotype')

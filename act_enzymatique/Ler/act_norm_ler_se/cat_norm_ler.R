@@ -13,30 +13,29 @@ Concentration <- function(rep, pente, protein) {
 
 cat$result <- Concentration(cat$repBIO, cat$pente, cat$protein)
 
-aggregate(cat$result, list(cat$genotype, cat$ecotype, cat$repBIO), mean)
+mean_tech <- aggregate(cat$result, list(cat$genotype, cat$ecotype, cat$repBIO), mean)
+colnames(mean_tech) <- c('genotype', 'ecotype', 'repBio', 'mean')
+mean_tech$genotype <- factor(mean_tech$genotype, levels = c('WT', 'nqr', 'air12', 'nqrair12'))
+mean_tech$ecotype <- factor(mean_tech$ecotype, levels = c('Ler', 'Col'))
 
 # Normalisation selon WT
-Normalisation <- function(genotype, repBio, repTech) {
-  return((cat$result[cat$genotype == genotype
-                     & cat$ecotype == "Ler"
-                     & cat$repBIO == repBio
-                     & cat$repTech == repTech]) / (cat$result[cat$genotype == "WT"
-                                                              & cat$ecotype == "Ler"
-                                                              & cat$repBIO == repBio
-                                                              & cat$repTech == repTech]))
+Normalisation <- function(genotype, repBio) {
+  return((mean_tech$mean[mean_tech$genotype == genotype
+                     & mean_tech$ecotype == "Ler"
+                     & mean_tech$repBio == repBio]) / (mean_tech$mean[mean_tech$genotype == "WT"
+                                                              & mean_tech$ecotype == "Ler"
+                                                              & mean_tech$repBio == repBio]))
 }
 rep <- data.frame(norm = integer(0))
 
-for (j in 1:3) {
-  for (i in 1:2) {
-    x <- Normalisation(cat$genotype, j, i)
-    rep <- rbind(rep, data.frame(norm = x))
-  }
+for (i in 1:3) {
+  x <- Normalisation(mean_tech$genotype, i)
+  rep <- rbind(rep, data.frame(norm = x))
+  print(rep)
 }
 
-rep$genotype <- rep(c("WT", "nqr", "air12", "nqrair12"), 6)
-rep$repBio <- rep(c(1, 2, 3), each = 8)
-rep$repTech <- rep(c(1,2), each = 4)
+rep$genotype <- rep(c("WT", "nqr", "air12", "nqrair12"), 3)
+rep$repBio <- rep(c(1, 2, 3), each = 4)
 
 # calcul de la moyenne des [O2]/genotype
 df <- aggregate(rep$norm, list(rep$genotype), mean)
@@ -137,9 +136,3 @@ for (params in list(c("WT", "nqr"),
                              student=studentResult$p.value,
                              student.pass=(studentResult$p.value > 0.05)))
 }
-
-stats <- lm(rep$norm ~ rep$genotype + rep$repBio)
-summary(stats)
-anova(stats)
-
-out <- HSD.test(stats, 'rep$genotype')

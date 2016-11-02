@@ -118,3 +118,14 @@ for (params in list(c("WT", "nqr"),
 
 wilcox.test(stress$weightg[stress$genotype == "WT"],
                         stress$weightg[stress$genotype == "nqr"])
+
+
+stats <- lm(control$masse ~ control$genotype)
+summary(stats)
+anova(stats)
+
+a1 <- aov(control$masse ~ control$genotype)
+posthoc <- TukeyHSD(x=a1, 'control$genotype', conf.level=0.95)
+
+out <- HSD.test(stats, 'control$genotype')
+

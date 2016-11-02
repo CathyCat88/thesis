@@ -136,3 +136,9 @@ for (params in list(c("WT", "nqr"),
                              student=studentResult$p.value,
                              student.pass=(studentResult$p.value > 0.05)))
 }
+
+stats <- lm(rep$norm ~ rep$genotype + rep$repBio)
+summary(stats)
+anova(stats)
+
+out <- HSD.test(stats, 'rep$genotype')

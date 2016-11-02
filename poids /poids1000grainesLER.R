@@ -81,3 +81,12 @@ for (params in list(c("WT", "nqr"),
                                      student=studentResult$p.value,
                                      student.pass=(studentResult$p.value > 0.05)))
 }
+
+stats <- lm(data$masse ~ data$genotype + data$repetition)
+summary(stats)
+anova(stats)
+
+a1 <- aov(data$masse ~ data$genotype + data$repetition)
+posthoc <- TukeyHSD(x=a1, 'data$genotype', conf.level=0.95)
+
+out <- HSD.test(stats, 'data$genotype')
