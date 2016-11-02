@@ -24,3 +24,11 @@ g <- g + scale_x_continuous(name = "\nWavelength (nm)")
 g <- g + scale_y_continuous(name = "absorbance\n")
 g
 save_plot('MDH2 ph6.55 1min.png', g, base_aspect_ratio = 1.3)
+
+g <- ggplot (df1, aes(x= wavelength, y= value, group = variable, color = variable))
+g <- g + geom_line()
+g <- g + theme(legend.position = "none")
+g <- g + scale_x_continuous(name = "\nLongueur d'onde (nm)", limits = c(300, 402), expand = c(0,0))
+g <- g + scale_y_continuous(name = "Absorbance\n", limits = c(0, 0.48), expand = c(0,0))
+g
+save_plot('MDH2_ph655_1min_fr.png', g, base_aspect_ratio = 1.3)

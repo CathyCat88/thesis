@@ -36,3 +36,13 @@ g <- ggplot(result, aes(time, abs)) +
 g
 save_plot("MDH2_AIR12_pH6.55_xanthOx.png", g, base_aspect_ratio = 1.3)
 
+g <- ggplot(result, aes(time, abs)) +
+  geom_line() +
+  geom_point(size = 4,
+             shape = 15) +
+  theme(legend.position = "none") +
+  scale_x_continuous(name = "", expand = c(0,0), limits = c(0, 31)) +
+  scale_y_continuous(name = "", expand = c(0,0), limits = c(0,0.26))
+g
+save_plot("MDH2_AIR12_pH6.55_xanthOx_fr.png", g, base_aspect_ratio = 1.3)
+

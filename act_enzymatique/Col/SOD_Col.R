@@ -10,9 +10,9 @@ data <- read.csv("SOD_Col.csv", header = TRUE)
 ###CALCULS###
 #############
 
-# calcul de la concentration en nkat/mg
+# calcul de la concentration en nmol/s/mg
 Concentration <- function(pente2, pente1, protein) {
-  return(abs((pente2 - pente1) * 10^9 / (24200 * protein * 60)))
+  return(abs((pente2 - pente1)*10^9 / (24200 * protein * 60)))
 }
 
 data$result <- Concentration(data$pente2, data$pente1, data$protein)
@@ -44,7 +44,7 @@ g1 <- ggplot(df.shoot,
            width = 0.6) +
   theme(legend.position = "none") +
   xlab("") +
-  scale_y_continuous(name = "activité SOD \n (nkat/mg de protéines) \n",
+  scale_y_continuous(name = "activité SOD \n (nmol/mg de protéines/s) \n",
                      expand = c(0,0)) +
   geom_errorbar(aes(ymin = df.shoot$moyenne, 
                     ymax = df.shoot$moyenne + df.shoot$se), 
@@ -59,7 +59,7 @@ g2 <- ggplot(df.root,
            width = 0.6) +
   theme(legend.position = "none") +
   xlab("") +
-  scale_y_continuous(name = "activité SOD \n (nkat/mg de protéines) \n",
+  scale_y_continuous(name = "activité SOD \n (nmol/mg de protéines/s) \n",
                      expand = c(0,0)) +
   geom_errorbar(aes(ymin = df.root$moyenne, 
                     ymax = df.root$moyenne + df.root$se), 

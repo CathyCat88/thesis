@@ -5,7 +5,7 @@ library("cowplot")
 # importation des données
 sod <- read.csv("SOD.csv", sep = ",", dec = ".", header = TRUE)
 
-# calcul de la concentration en nkat/mg
+# calcul de la concentration en nmol/mg/s
 Concentration <- function(pente2, pente1, protein) {
   return(abs((pente2 - pente1) * 10^9 / (24200 * protein * 60)))
 }

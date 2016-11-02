@@ -5,9 +5,9 @@ library("cowplot")
 # importation des données
 pox <- read.csv("POXx.csv", header = TRUE)
 
-# calcul de la concentration en µmol/mg/min
+# calcul de la concentration en nmol/mg/s
 Concentration <- function(pente2, pente1, protein) {
-  return((pente2 - pente1) *10^9 / (26600 * protein))
+  return((pente2 - pente1) *10^9/ (26600 *60* protein))
 }
 
 pox$result <- Concentration(pox$pente2, pox$pente1, pox$protein)

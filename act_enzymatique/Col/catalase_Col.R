@@ -10,10 +10,10 @@ data <- read.csv("catalase_Col.csv", header = TRUE)
 ###CALCULS###
 #############
 
-# calcul de la concentration en oxygène en µmol/mg/min
+# calcul de la concentration en oxygène en nmol/mg/s
 Concentration <- function(rep_bio, pente, protein) {
   coeff <- c(0.0126, 0.0125)
-  return((pente * coeff[rep_bio]) / protein)
+  return((pente * coeff[rep_bio] *10^3) / (protein*60))
 }
 
 data$result <- Concentration(data$rep_bio, data$pente, data$protein)
@@ -42,7 +42,7 @@ g1 <- ggplot(df.shoot, aes(genotype, moyenne, fill = genotype)) +
            width = 0.6, position = position_dodge(0.8)) + 
   theme(legend.position = "none")+
   xlab("") +
-  scale_y_continuous(name = "activité catalase \n(µmol/mg de protéines/min) \n",
+  scale_y_continuous(name = "activité catalase \n(nmol/mg de protéines/s) \n",
                      expand = c(0,0)) +
   geom_errorbar(data = df.shoot, 
                 aes(ymin = moyenne,
@@ -55,7 +55,7 @@ g2 <- ggplot(df.root, aes(genotype, moyenne, fill = genotype)) +
            width = 0.6, position = position_dodge(0.8)) + 
   theme(legend.position = "none")+
   xlab("") +
-  scale_y_continuous(name = "activité catalase \n(µmol/mg de protéines/min) \n",
+  scale_y_continuous(name = "activité catalase \n(nmol/mg de protéines/s) \n",
                      expand = c(0,0)) +
   geom_errorbar(data = df.root, 
                 aes(ymin = moyenne,

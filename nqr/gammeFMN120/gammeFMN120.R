@@ -21,6 +21,17 @@ g1 <- ggplot(data2, aes(x = wavelength, y = fluo,
                       expand = c(0,0))
 save_plot("gammeFMN120_fr_tout.png", g1, base_aspect_ratio = 1.3)
 
+g1 <- ggplot(data2, aes(x = wavelength, y = fluo,
+                        colour = FMN)) +
+  geom_line() +
+  scale_x_continuous(name = "\nWavelength (nm)", 
+                     limits = c(470, 602),
+                     expand = c(0,0)) +
+  scale_y_continuous(name = "Fluorescence intensity (a.u.) \n",
+                     expand = c(0,0))
+save_plot("gammeFMN120_eng.png", g1, base_aspect_ratio = 1.3)
+
+
 data3 <- data2[data2$wavelength > 525 & data2$wavelength < 530,]
 result <- aggregate(data3$fluo, list(data3$FMN), max)
 colnames(result) <- c("FMN", "fluo")

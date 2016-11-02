@@ -5,10 +5,10 @@ library("cowplot")
 # importation des données
 cat <- read.csv("CATt.csv", sep = ",", dec = ".", header = TRUE)
 
-# calcul de la concentration en oxygène en µmol/mg/s
+# calcul de la concentration en oxygène en nmol/mg/s
 Concentration <- function(rep, pente, protein) {
   coeff <- c(0.01315, 0.0146, 0.014)
-  return((pente * coeff[rep]) / protein * 60)
+  return((pente * coeff[rep] *10^3) / (protein * 60))
 }
 
 cat$result <- Concentration(cat$repBIO, cat$pente, cat$protein)

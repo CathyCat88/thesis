@@ -3,17 +3,25 @@ remove(list = ls())
 
 library(ggplot2)
 
-valeurs <- data.frame(read.csv("MDH2 ph.csv", sep = ';', dec = ",", header = TRUE))
+valeurs <- data.frame(read.csv("MDH2 ph.csv", sep = ";", dec = ",", header = TRUE))
+valeurs <- cbind(valeurs[,1], valeurs[,3:4])
+colnames(valeurs) <- c("wavelength", "ph58", "ph8")
 
-g <- ggplot (valeurs, aes( x= valeurs[,1]))
-g <- g + geom_line(aes(y= valeurs[,2]), size = .5, colour = "#009E73")
-g <- g + geom_line(aes(y= valeurs[,3]), size = .5, colour = 'green')
-g <- g + geom_line(aes(y= valeurs[,4]), size = .5, colour = "#CC79A7")
-g <- g + scale_x_continuous(name = "\nWavelength (nm)", limits = c(300, 400))
-g <- g + scale_y_continuous(name = "Absorbance\n", limits = c(0, 0.5))
-g <- g + theme(axis.title.x = element_text(size = 20), axis.text.x = element_text(color = "black", size = 18))
-g <- g + theme(axis.title.y = element_text(size = 20), axis.text.y = element_text(color = "black", size = 18))
+df <- melt(valeurs, id.vars="wavelength")
+
+g <- ggplot(df, aes(x =  wavelength, 
+                    y = value, 
+                    group = variable, 
+                    colour = variable, 
+                    linetype = variable)) +
+  geom_line() +
+  theme(legend.position = "none") +
+  scale_x_continuous(name = "\nLongueur d'onde (nm)", 
+                     expand = c(0,0),
+                     limits = c(300, 402)) +
+  scale_y_continuous(name = "Absorbance\n", 
+                     expand = c(0,0))
 g
 
-ggsave("MDH2 ph.pdf")
-ggsave("MDH2 ph.png")
+save_plot("MDH2_pH_fr.png", g, base_aspect_ratio = 1.3)
+

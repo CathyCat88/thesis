@@ -27,10 +27,11 @@ g <- ggplot(data = result,
                 color = factor(variable, 
                                labels = c("FMN libre", "NQR oxydé", "NQR réduit", "NQR fin de titration"))))+
   geom_line() +
+  theme(legend.position = "none") +
   theme(legend.title = element_blank()) +
   scale_x_continuous(name = "\nLongueur d'onde (nm)",
                      expand = c(0,0),
-                     limits = c(400, 600)) +
+                     limits = c(400, 602)) +
   scale_y_continuous(name = "Absorbance\n",
                      expand = c(0,0),
                      limits = c(0,0.33))
