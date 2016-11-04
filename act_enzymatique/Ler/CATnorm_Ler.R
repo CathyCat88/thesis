@@ -15,7 +15,7 @@ cat$result <- Concentration(cat$repBIO, cat$pente, cat$protein)
 
 aggregate(cat$result, list(cat$genotype, cat$ecotype, cat$repBIO), mean)
 
-# Normalisation selon WT
+# Normalisation des moyennes selon WT
 Normalisation <- function(genotype, repBio, repTech) {
   return((cat$result[cat$genotype == genotype
                      & cat$ecotype == "Ler"
@@ -43,13 +43,16 @@ df <- aggregate(rep$norm, list(rep$genotype), mean)
 colnames(df) <- c("genotype", "moyenne")
 
 # calcul de l'erreur standard
-StandErr <- function(x) {
-  se <- sd(x)/sqrt(length(x))
-}
+#StandErr <- function(x) {
+#  se <- sd(x)/sqrt(length(x))
+#}
 
-SE <- aggregate(rep$norm, list(rep$genotype), StandErr)
-df$SE <- SE$x
+#SE <- aggregate(rep$norm, list(rep$genotype), StandErr)
+#df$SE <- SE$x
+#df$genotype <- factor(df$genotype, levels = c("WT", "nqr", "air12", "nqrair12"))
+df$SE <- c(0.07, 0.25, 0.07, 0.13)
 df$genotype <- factor(df$genotype, levels = c("WT", "nqr", "air12", "nqrair12"))
+
 
 ###########
 # BARPLOT #

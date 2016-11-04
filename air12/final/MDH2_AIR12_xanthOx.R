@@ -32,7 +32,7 @@ g <- ggplot(result, aes(time, abs)) +
   geom_point(size = 2.5) +
   theme(legend.position = "none") +
   scale_x_continuous(name = "\nTime (min)", expand = c(0,0), limits = c(0, 31)) +
-  scale_y_continuous(name = "Absorbance\n", expand = c(0,0), limits = c(0,0.21))
+  scale_y_continuous(name = "Absorbance\n", expand = c(0,0), limits = c(0,0.21)) 
 g
 save_plot("MDH2_AIR12_pH6.55_xanthOx.png", g, base_aspect_ratio = 1.3)
 
@@ -45,4 +45,25 @@ g <- ggplot(result, aes(time, abs)) +
   scale_y_continuous(name = "", expand = c(0,0), limits = c(0,0.26))
 g
 save_plot("MDH2_AIR12_pH6.55_xanthOx_fr.png", g, base_aspect_ratio = 1.3)
+
+
+g <- ggplot(result, aes(time, abs)) +
+  geom_line() +
+  geom_point(shape = 15, size = 4) +
+  theme(legend.position = "none") +
+  scale_x_continuous(name = "", expand = c(0,0), limits = c(0, 31)) +
+  scale_y_continuous(name = "", expand = c(0,0), limits = c(0,0.21)) + 
+  theme(panel.border = element_blank(),
+        line = element_blank(), 
+      legend.key = element_blank(),
+      axis.ticks = element_blank(),
+      axis.text.y = element_blank(),
+      axis.text.x = element_blank(),
+      panel.grid = element_blank(),
+      panel.grid.minor = element_blank(), 
+      panel.grid.major = element_blank(),
+      panel.background = element_blank(),
+      plot.background = element_rect(fill = "transparent",colour = NA))
+g
+save_plot("MDH2_AIR12_pH6.55_xanthOx_blanc.png", g, base_aspect_ratio = 1.3)
 

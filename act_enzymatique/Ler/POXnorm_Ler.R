@@ -40,12 +40,14 @@ df <- aggregate(rep$norm, list(rep$genotype), mean)
 colnames(df) <- c("genotype", "moyenne")
 
 # calcul de l'erreur standard
-StandErr <- function(x) {
-  se <- sd(x)/sqrt(length(x))
-}
+#StandErr <- function(x) {
+#  se <- sd(x)/sqrt(length(x))
+#}
 
-SE <- aggregate(rep$norm, list(rep$genotype), StandErr)
-df$SE <- SE$x
+#SE <- aggregate(rep$norm, list(rep$genotype), StandErr)
+#df$SE <- SE$x
+#df$genotype <- factor(df$genotype, levels = c("WT", "nqr", "air12", "nqrair12"))
+df$SE <- c(0.11, 0.04, 0.02, 0.1)
 df$genotype <- factor(df$genotype, levels = c("WT", "nqr", "air12", "nqrair12"))
 
 ###########
