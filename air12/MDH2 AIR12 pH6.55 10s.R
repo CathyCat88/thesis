@@ -27,6 +27,6 @@ g <- ggplot (df2, aes(x= wavelength, y= value, group = variable))
 g <- g + geom_line()
 g <- g + theme(legend.position = "none")
 g <- g + scale_x_continuous(name = "\nWavelength (nm)", expand = c(0,0), limits = c(300,401))
-g <- g + scale_y_continuous(name = "Absorbance\n", expand = c(0,0), limits = c(0,0.45))
+g <- g + scale_y_continuous(name = "Absorbance change\n", expand = c(0,0), limits = c(0,0.45))
 g
 save_plot('MDH2_AIR12_ph6.55_1min_NOIR.png', g, base_aspect_ratio = 1.3)

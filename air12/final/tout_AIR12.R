@@ -60,14 +60,6 @@ final[final$prot == "yes" & final$pH == "5.8",]["group"] <- "B"
 final[final$prot == "no" & final$pH == "6.55",]["group"] <- "C"
 final[final$prot == "yes" & final$pH == "6.55",]["group"] <- "D"
 
-g <- ggplot(final, aes(time, abs, shape = group, colour = group, group = group)) +
-  geom_line(colour = "black") +
-  geom_point(size = 4, fill = "white", colour = "black") +
-  scale_shape_manual(values = c(21, 24 , 16,17))+
-  scale_x_continuous(name = "\nTime (min)", expand = c(0,0), limits = c(0, 31)) +
-  scale_y_continuous(name = "Absorbance\n", expand = c(0,0), limits = c(0, 0.26))
-g
-
 group <- interaction(final$prot, final$pH)
 
 g <- ggplot(final, aes(time, abs, shape = group, colour = group, group = group)) +
@@ -76,7 +68,7 @@ g <- ggplot(final, aes(time, abs, shape = group, colour = group, group = group))
   scale_shape_manual(values = c(21, 24 , 16,17))+
   theme(legend.position = "none") +
   scale_x_continuous(name = "\nTime (min)", expand = c(0,0), limits = c(0, 31)) +
-  scale_y_continuous(name = "Absorbance\n", expand = c(0,0), limits = c(0, 0.26))
+  scale_y_continuous(name = "Absorbance change\n", expand = c(0,0), limits = c(0, 0.26))
 g
 
 save_plot("tout_AIR12.png", g, base_aspect_ratio = 1.3)

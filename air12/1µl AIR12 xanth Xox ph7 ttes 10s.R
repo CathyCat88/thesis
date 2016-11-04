@@ -17,6 +17,6 @@ g <- ggplot (df1, aes(x= wavelength, y= value, group = variable, color = variabl
 g <- g + geom_line()
 g <- g + theme(legend.position = "none")
 g <- g + scale_x_continuous(name = "\nWavelength (nm)", limits = c(300,400))
-g <- g + scale_y_continuous(name = "absorbance\n", limits = c(0, 0.6))
+g <- g + scale_y_continuous(name = "Absorbance change\n", limits = c(0, 0.6))
 g
 save_plot('AIR12 Xan Xox ph6.55 1min.png', g, base_aspect_ratio = 1.3)
