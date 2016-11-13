@@ -42,3 +42,14 @@ g <- ggplot(result, aes(temps, moyenne,
                     group = genotype), 
                 width = 0.2)
 save_plot("radicules_Ler.png", g, base_aspect_ratio = 1.3)
+
+jour7 <- data[data$variable == "X7",]
+
+stats <- lm(jour7$value ~ jour7$genotype)
+summary(stats)
+anova(stats)
+
+a1 <- aov(jour7$value ~ jour7$genotype)
+posthoc <- TukeyHSD(x=a1, 'jour7$genotype', conf.level=0.95)
+
+out <- HSD.test(stats, 'jour7$genotype')
